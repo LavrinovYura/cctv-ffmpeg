@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Streams</title>
+    <link rel="stylesheet" href="admin-styles.css">
+    <link rel="stylesheet" href="../../common/common.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div id="navigation"></div>
+<script src="../../common/common.js"></script>
+<div class="content">
+    <div class="start-stream-container">
+        <button id="openModalButton">Start Stream</button>
+    </div>
+
+    <div id="streamModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <form id="streamForm">
+                <label for="rtspUrl">RTSP URL:</label>
+                <input type="text" id="rtspUrl" name="rtspUrl" placeholder="RTSP URL" required>
+
+                <label for="streamName">Stream Name:</label>
+                <input type="text" id="streamName" name="streamName" placeholder="Stream Name" required>
+
+                <label for="groupName">Group:</label>
+                <input list="groupNames" id="groupName" name="groupName" placeholder="Group" required>
+                <datalist id="groupNames">
+                    <!-- Options will be populated by JavaScript -->
+                </datalist>
+
+                <div class="record-stream">
+                    <label for="record">Record Stream</label>
+                    <input type="checkbox" id="record" name="record">
+                </div>
+
+                <button type="submit">Start Stream</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="loadingModal" class="modal">
+        <div class="modal-content" style="text-align: center;">
+            <div id="loadingStatus">
+                <p>Идет добавление стрима... <div class="loader" style="display: inline-block;"></div></p>
+            </div>
+            <div id="successStatus" style="display: none;">
+                <p>Стрим удачно добавлен</p>
+            </div>
+            <div id="errorStatus" style="display: none;">
+                <p>Ошибка: Стрим уже добавлен</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="group-selection">
+        <label for="groupFilter">Select Group:</label>
+        <select id="groupFilter">
+            <option value="all">All Groups</option>
+        </select>
+    </div>
+
+    <div class="stream-navigation">
+        <button id="prevStreamsButton">Previous</button>
+        <button id="nextStreamsButton">Next</button>
+    </div>
+    <div id="streamsContainer" class="streams-container"></div>
+</div>
+
+<script type="module" src="admin-live-js/admin-live-page-script.js"></script>
+<script type="module" src="admin-live-js/streamManager.js"></script>
+<script type="module" src="admin-live-js/notificationHandler.js"></script>
+<script type="module" src="admin-live-js/modalHandler.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dashjs/dist/dash.all.min.js"></script>
+</body>
+</html>

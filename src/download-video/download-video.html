@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Video</title>
+    <link rel="stylesheet" href="download-video.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="../common/common.css">
+</head>
+<body>
+<div id="navigation"></div>
+<script src="../common/common.js"></script>
+
+<div class="container">
+    <h1>Download Video</h1>
+    <form id="videoRequestForm">
+        <label for="cameraName">Camera Name:</label>
+        <input type="text" id="cameraName" name="cameraName" required>
+
+        <label for="year">Year:</label>
+        <input type="text" id="year" name="year" required>
+
+        <label for="month">Month:</label>
+        <input type="text" id="month" name="month" required>
+
+        <label for="day">Day:</label>
+        <input type="text" id="day" name="day" required>
+
+        <label for="time">Time (HH:mm):</label>
+        <input type="text" id="time" name="time" required>
+
+        <label for="duration">Duration (minutes):</label>
+        <input type="text" id="duration" name="duration" required>
+
+        <button type="submit">Download Video</button>
+    </form>
+    <div id="videoContainer" style="display:none;" class="video-container">
+        <video id="downloadedVideo" controls></video>
+        <a id="downloadVideoButton" style="display: none;" download>Download on Computer</a>
+    </div>
+</div>
+
+<script src="download-video.js"></script>
+</body>
+</html>
