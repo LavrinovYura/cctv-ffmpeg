@@ -1,11 +1,10 @@
 package polytech.diploma.dtos.authorization;
 
 import lombok.Data;
+import polytech.diploma.models.user.RoleType;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
+import java.util.List;
 
 @Data
 public class RegisterDTO {
@@ -26,6 +25,9 @@ public class RegisterDTO {
     @Size(min = 5, max = 100, message = "Middle name must be between 5 and 100 characters")
     @Pattern(regexp = "^[A-Za-zА-Юа-ю]+$", message = "Middle name must consist of only letters")
     private String middleName;
+
+    @NotEmpty(message = "Please enter role of user")
+    private List<RoleType> roles;
 
     @NotNull
     private String username;

@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
-import polytech.diploma.PersonMapper;
+import polytech.diploma.mappers.PersonMapper;
 import polytech.diploma.dtos.authorization.RegisterDTO;
 import polytech.diploma.dtos.authorization.RegisterResponseDTO;
 import polytech.diploma.models.user.Person;
@@ -20,6 +20,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -48,8 +51,8 @@ public class RegistrationService {
         Instant userExpireInstant = now.plusDays(EXPIRE_DATE).atZone(ZoneId.systemDefault()).toInstant();
         person.setExpireDate(Date.from(userExpireInstant));
 
-        Role role = roleRepository.findByRoleType(RoleType.USER);
-        person.setRoles(Collections.singleton(role));
+        Set<Role> roles = registerDTO.getRoles().stream().map(roleRepository::findByRoleType).collect(Collectors.toSet());
+        person.setRoles(roles);
 
         return personMapper.personToRegisterResponseDTO(personRepository.save(person));
     }

@@ -25,7 +25,7 @@ public class SecurityConfig {
     private final JWTAuthEntryPoint authEntryPoint;
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
                 .exceptionHandling()
@@ -36,16 +36,22 @@ public class SecurityConfig {
                 .and()
                 .authorizeHttpRequests(
                         auth -> auth
-                                .antMatchers("/api/auth/login",
-                                        "/api/auth/token",
-                                        "/api/auth/register").permitAll()
-                                .antMatchers("/api/menu/administration/**").hasAuthority("ADMIN")
                                 .antMatchers(
-                                        "api/menu/contracts/**",
-                                        "api/menu/report/**",
-                                        "api/menu/counterparty/**"
-                                )
+                                        "/api/auth/login",
+                                        "/api/auth/token",
+                                        "/api/auth/register")
+                                .permitAll()
+
+                                .antMatchers(
+                                        "/api/admin/**",
+                                        "/api/streamPage/controlStream/**")
+                                .hasAuthority("ADMIN")
+
+                                .antMatchers(
+                                        "/api/streamPage/**")
                                 .hasAnyAuthority("ADMIN", "USER")
+
+
                                 .anyRequest().authenticated()
                                 .and()
                                 .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
@@ -57,17 +63,17 @@ public class SecurityConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(
-            AuthenticationConfiguration authenticationConfiguration) throws Exception{
+            AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
     @Bean
-    public JWTAuthenticationFilter jwtAuthenticationFilter(){
+    public JWTAuthenticationFilter jwtAuthenticationFilter() {
         return new JWTAuthenticationFilter();
     }
 
     @Bean
-    PasswordEncoder passwordEncoder(){
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

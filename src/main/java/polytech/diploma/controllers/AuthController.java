@@ -6,9 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import polytech.diploma.dtos.authorization.*;
+import polytech.diploma.security.JWT.JWTProvider;
 import polytech.diploma.services.AuthService;
-import polytech.diploma.services.RegistrationService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @CrossOrigin(allowCredentials = "true", originPatterns = "*")
@@ -17,7 +18,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class AuthController {
     private final AuthService authService;
-    private final RegistrationService registrationService;
+    private final JWTProvider jwtProvider;
 
     @PostMapping("login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid LoginDTO loginDTO) {
@@ -37,13 +38,19 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("register")
-    public ResponseEntity<RegisterResponseDTO> register(@RequestBody @Valid RegisterDTO registerDTO) {
-        RegisterResponseDTO response = registrationService.register(registerDTO);
+    @GetMapping("validate-token")
+    public ResponseEntity<Void> validateToken(HttpServletRequest request) {
+        String authHeader = request.getHeader("Authorization");
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(response);
+        String token = authHeader.substring(7);
+        if (jwtProvider.validateAccessToken(token)) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 
 }

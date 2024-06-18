@@ -20,6 +20,8 @@ import polytech.diploma.security.JWT.JWTProvider;
 import java.util.HashMap;
 import java.util.Map;
 
+import static polytech.diploma.models.user.RoleType.ADMIN;
+
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -48,6 +50,7 @@ public class AuthService {
         response.setFirstName(person.getFirstName());
         response.setSecondName(person.getSecondName());
         response.setMiddleName(person.getMiddleName());
+        response.setAdmin(person.getRoles().stream().anyMatch(role -> role.getRoleType().equals(ADMIN)));
 
         return response;
     }

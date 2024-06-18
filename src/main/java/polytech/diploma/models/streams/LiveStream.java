@@ -20,7 +20,11 @@ public class LiveStream {
     private String rtspUrl;
 
     @Column(unique = true)
-    private String hlsUrl;
+    private String dashUrl;
 
+    private String streamName;
 
+    private Boolean record;
+
+    private String groupName;
 }

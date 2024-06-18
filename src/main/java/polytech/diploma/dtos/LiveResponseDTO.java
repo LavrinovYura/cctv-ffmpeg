@@ -6,5 +6,10 @@ import lombok.Setter;
 @Getter
 @Setter
 public class LiveResponseDTO {
-    private String hlsUrl;
+    private Long id;
+    private String dashUrl;
+    private String rtspUrl;
+    private String streamName;
+    private Boolean record;
+    private String groupName;
 }

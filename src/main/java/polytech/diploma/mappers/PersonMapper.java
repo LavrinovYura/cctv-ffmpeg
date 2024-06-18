@@ -1,4 +1,4 @@
-package polytech.diploma;
+package polytech.diploma.mappers;
 
 import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
